@@ -1,0 +1,218 @@
+{
+    "info": {
+        "name": "Microservices API Collection",
+        "description": "Complete API collection for Auth Service and Task Service",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth Service",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"username\": \"john_doe\",\n  \"password\": \"securePassword123\",\n  \"role\": \"User\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{AUTH_BASE_URL}}/api/v1/auth/register",
+                            "host": [
+                                "{{AUTH_BASE_URL}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "register"
+                            ]
+                        },
+                        "description": "Register a new user with username, password, and role"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"username\": \"john_doe\",\n  \"password\": \"securePassword123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{AUTH_BASE_URL}}/api/v1/auth/login",
+                            "host": [
+                                "{{AUTH_BASE_URL}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Login and receive JWT token"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{AUTH_BASE_URL}}/",
+                            "host": [
+                                "{{AUTH_BASE_URL}}"
+                            ],
+                            "path": [
+                                ""
+                            ]
+                        },
+                        "description": "Check if auth service is running"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Task Service",
+            "item": [
+                {
+                    "name": "Get All Tasks",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{TASK_BASE_URL}}/api/v1/tasks",
+                            "host": [
+                                "{{TASK_BASE_URL}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "tasks"
+                            ]
+                        },
+                        "description": "Retrieve all tasks (cached in Redis for 1 hour)"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Task",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Complete project documentation\",\n  \"description\": \"Write comprehensive API docs\",\n  \"assignedTo\": \"john_doe\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{TASK_BASE_URL}}/api/v1/tasks",
+                            "host": [
+                                "{{TASK_BASE_URL}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "tasks"
+                            ]
+                        },
+                        "description": "Create a new task"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Task Status",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{TASK_BASE_URL}}/api/v1/tasks/:taskId",
+                            "host": [
+                                "{{TASK_BASE_URL}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "tasks",
+                                ":taskId"
+                            ],
+                            "variable": [
+                                {
+                                    "key": "taskId",
+                                    "value": "",
+                                    "description": "Task ID to update"
+                                }
+                            ]
+                        },
+                        "description": "Update task status to OPEN, IN_PROGRESS, or DONE"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{TASK_BASE_URL}}/",
+                            "host": [
+                                "{{TASK_BASE_URL}}"
+                            ],
+                            "path": [
+                                ""
+                            ]
+                        },
+                        "description": "Check if task service is running"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "AUTH_BASE_URL",
+            "value": "http://localhost:3001",
+            "type": "string"
+        },
+        {
+            "key": "TASK_BASE_URL",
+            "value": "http://localhost:3002",
+            "type": "string"
+        }
+    ]
+}

@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const connectDB = async (): Promise<void> => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/task-db');
+        const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/task-db';
+        await mongoose.connect(mongoURI);
         console.log('MongoDB Connected: task-db');
     } catch (error) {
         console.error('MongoDB connection error:', error);
