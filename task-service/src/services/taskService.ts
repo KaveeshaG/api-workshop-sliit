@@ -86,3 +86,17 @@ export const updateTask = async (id: string, status: string, updatedBy: string):
 
     return updatedTask;
 };
+
+export const deleteTask = async (id: string): Promise<ITask | null> => {
+    const deletedTask = await Task.findByIdAndDelete(id);
+
+    if (deletedTask) {
+        // Invalidate all task caches
+        const keys = await redis.keys('tasks:*');
+        if (keys.length > 0) {
+            await redis.del(...keys);
+        }
+    }
+
+    return deletedTask;
+};

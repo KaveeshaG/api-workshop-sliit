@@ -44,15 +44,54 @@ export const updateTask = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
-        const user = (req as any).user; // User info from auth middleware
+        const user = (req as any).user;
 
         const updatedTask = await taskService.updateTask(id, status, user.username);
+
         if (!updatedTask) {
-            return errorResponse(res, 'Task not found', 404);
+            return res.status(404).json({
+                success: false,
+                message: 'Task not found'
+            });
         }
 
-        successResponse(res, updatedTask, 'Task updated successfully');
+        res.json({
+            success: true,
+            message: 'Task updated successfully',
+            data: updatedTask
+        });
     } catch (error: any) {
-        errorResponse(res, 'Internal server error', 500, error.message);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
+
+export const deleteTask = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const deletedTask = await taskService.deleteTask(id);
+
+        if (!deletedTask) {
+            return res.status(404).json({
+                success: false,
+                message: 'Task not found'
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Task deleted successfully',
+            data: deletedTask
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
     }
 };

@@ -27,6 +27,7 @@ const authLimiter = rateLimit({
 });
 
 app.use('/api/', limiter);
+app.use('/api/', authLimiter);
 
 // Routes
 app.use('/health', healthRoutes);
